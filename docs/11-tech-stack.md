@@ -17,13 +17,14 @@
 | 0.1.1 | Model matrix records the documented end of life for Llama 3.3 70B and the API status field gap |
 | 0.1.2 | Embeddings runtime moved to fastembed (ONNX) to stay torch free on Windows |
 | 0.1.3 | Reranker runtime moved to fastembed (ONNX); the cross encoder import path documented |
+| 0.1.4 | Generator pinned to the Llama 3.3 70B inference profile; langgraph dependencies added |
 
 ## Runtime libraries
 
 | Layer | Choice | Notes |
 |---|---|---|
 | Language | Python 3.12 | |
-| Pipeline | LangGraph | state graph with checkpointer |
+| Pipeline | LangGraph | state graph with conditional refusal edges |
 | LLM client | langchain-core chat models + provider adapters | uniform interface across providers |
 | Vector index | faiss-cpu | flat index, cosine |
 | Sparse index | rank-bm25 | persisted tokenized artifact |

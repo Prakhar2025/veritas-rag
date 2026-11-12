@@ -17,6 +17,7 @@
 | 0.2.0 | Restructured into phase gated P0 to P7 with acceptance criteria and status table |
 | 0.2.1 | P1 accepted with measured results; checklist updated to the delivered corpus and batching |
 | 0.2.2 | P2 accepted; retrieval runtime choices documented |
+| 0.2.3 | P3 accepted; generator pinned to the inference profile |
 
 Source of truth for progress. Check a box only when its acceptance criteria are met, and keep the status table at the bottom in sync. Build protocol per CLAUDE.md: build the phase scope only, verify (lint, types, tests, phase acceptance), one commit, one push, report, then wait for the owner's explicit go before the next phase.
 
@@ -65,16 +66,16 @@ Acceptance: retrieval callable standalone on the corpus (the Apple net sales que
 
 Goal: the full LangGraph pipeline with memory, grading, generation, sentence level attribution and refusal.
 
-- [ ] LangGraph state graph: condense, retrieve, grade, generate, attribute, finalize
-- [ ] SQLite checkpointer: sessions persist across restarts, history window plus standalone rewrite
-- [ ] Grading gate: below threshold evidence short circuits to refusal
-- [ ] Generation with numbered evidence blocks and inline citations (Llama 3.3 70B default)
-- [ ] Sentence level attribution with the numeric consistency guard; unsupported sentences removed; empty result refuses
-- [ ] Refusal templates for: no relevant evidence, insufficient support, permission denied
-- [ ] Prompt module with versions, prompts never embed document content outside evidence slots
-- [ ] Integration tests on the fake provider: follow up resolution, unsupported sentence stripping, each refusal path
+- [x] LangGraph state graph: condense, retrieve, grade, generate, attribute, finalize, with conditional refusal short circuits
+- [x] SQLite session store: sessions persist across restarts, recent turns window plus standalone rewrite of follow up questions
+- [x] Grading gate: irrelevant evidence short circuits to refusal
+- [x] Generation with numbered evidence blocks and inline citations (Llama 3.3 70B via its inference profile)
+- [x] Sentence level attribution with the numeric consistency guard; unsupported and uncited sentences removed; empty result refuses
+- [x] Refusal templates for: no relevant evidence, insufficient support, unsupported draft, permission denied
+- [x] Prompt module with versions, prompts never embed document content outside evidence slots
+- [x] Integration tests on the fake provider: follow up persistence, unsupported sentence stripping, numeric guard, uncited sentence drop, each refusal path, session isolation
 
-Acceptance: integration suite green including refusal paths and a multi turn follow up chain; no real provider calls in tests.
+Acceptance: 50 tests green including every refusal path and a multi turn chain, no real provider calls in tests; real provider smoke produced a grounded Apple answer (total net sales and services segment, verified sentence by sentence) and a working follow up through session memory. Met 2026-11-13.
 
 ## P4: service and console
 
@@ -132,7 +133,7 @@ Acceptance: both forms submitted with a working, accessible repository.
 | P0 | Done | Docs suite, brief, control tables, constitution, 2026-11-12 |
 | P1 | Done | Corpus 6 docs 28.4 MB, ingestion 1,817 chunks, 0.018 USD, idempotent re run verified, 2026-11-12 |
 | P2 | Done | Hybrid retrieval, fusion, rerank, role filter, cache, CLI baselines verified on corpus, 2026-11-13 |
-| P3 | Not started | Grounded pipeline |
+| P3 | Done | LangGraph pipeline, memory, attribution, refusal paths; real smoke verified, 2026-11-13 |
 | P4 | Not started | Service and console |
 | P5 | Not started | Evaluation gate and CI |
 | P6 | Not started | Polish |

@@ -7,3 +7,5 @@ rank-bm25>=0.2.2,<0.3
 numpy>=1.26,<3
 pydantic>=2.7,<3
 pydantic-settings>=2.3,<3
+langgraph>=0.4,<0.7
+langgraph-checkpoint-sqlite>=2,<3

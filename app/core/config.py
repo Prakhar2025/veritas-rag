@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     aws_profile: str = ""
 
     nova_micro_model_id: str = "amazon.nova-micro-v1:0"
-    generator_model_id: str = "meta.llama3-3-70b-instruct-v1:0"
+    generator_model_id: str = "us.meta.llama3-3-70b-instruct-v1:0"
 
     embeddings_provider: str = "fastembed"  # fastembed or hash
     embeddings_model: str = "BAAI/bge-small-en-v1.5"
