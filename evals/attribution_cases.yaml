@@ -1,0 +1,85 @@
+# Attribution micro benchmark (docs/09): 20 labeled sentence and chunk pairs.
+# The runner scores verify_draft against these labels; precision and recall of
+# the supported class are gated.
+
+cases:
+  - id: a01
+    sentence: "Total net sales were 391,035 million [1]."
+    source: "Net sales: Products 294,866 Services 96,169 Total net sales 391,035"
+    expected: supported
+  - id: a02
+    sentence: "Services revenue reached 96,169 million [1]."
+    source: "Services 96,169 for fiscal 2024"
+    expected: supported
+  - id: a03
+    sentence: "Net income was 93,736 million [1]."
+    source: "Net income 93,736 for the twelve months"
+    expected: supported
+  - id: a04
+    sentence: "The margin improved by 340 basis points [1]."
+    source: "Gross margin discussions appear on page 41"
+    expected: unsupported
+  - id: a05
+    sentence: "The stock closed at 500 dollars [1]."
+    source: "No stock price data appears in this statement"
+    expected: unsupported
+  - id: a06
+    sentence: "NIST defines three assurance levels [1]."
+    source: "AAL1, AAL2 and AAL3 are defined in this publication"
+    expected: supported
+  - id: a07
+    sentence: "Biometrics are classified as something you are [1]."
+    source: "Something you are includes biometric characteristics"
+    expected: supported
+  - id: a08
+    sentence: "NIST recommends 64 character passwords [1]."
+    source: "Passwords shall be at least 8 characters"
+    expected: unsupported
+  - id: a09
+    sentence: "Attention replaces recurrence with multi head self attention [1]."
+    source: "We propose a new architecture, the Transformer, based solely on attention mechanisms"
+    expected: supported
+  - id: a10
+    sentence: "The Transformer was trained for 12 hours on 8 GPUs [1]."
+    source: "trained on 8 NVIDIA P100 GPUs, 12 hours for base models"
+    expected: supported
+  - id: a11
+    sentence: "The model reached 95 BLEU on WMT14 [1]."
+    source: "28.4 BLEU on the WMT 2014 English to German task"
+    expected: unsupported
+  - id: a12
+    sentence: "RAG combines a neural retriever with a sequence to sequence generator [1]."
+    source: "RAG models are parametrized by a neural retriever and a sequence to sequence generator"
+    expected: supported
+  - id: a13
+    sentence: "RAG-Token and RAG-Sequence are the two variants [1]."
+    source: "RAG-Token and RAG-Sequence are proposed and evaluated"
+    expected: supported
+  - id: a14
+    sentence: "RAG achieved zero percent accuracy on all benchmarks [1]."
+    source: "state of the art results on open domain QA"
+    expected: unsupported
+  - id: a15
+    sentence: "A shallow clone uses the depth flag [1]."
+    source: "git clone --depth 1 creates a shallow clone"
+    expected: supported
+  - id: a16
+    sentence: "git remote add registers a new remote [1]."
+    source: "git remote add <name> <url> adds a remote"
+    expected: supported
+  - id: a17
+    sentence: "Pro Git was published in 2029 [1]."
+    source: "second edition of the Pro Git book"
+    expected: unsupported
+  - id: a18
+    sentence: "Berkshire declares Greg Abel ready to lead capital allocation [1]."
+    source: "the letter discusses Greg Abel and capital allocation"
+    expected: supported
+  - id: a19
+    sentence: "Berkshire exited all equity positions [1]."
+    source: "the letter reports substantial equity holdings"
+    expected: unsupported
+  - id: a20
+    sentence: "The quarterly review process is documented elsewhere [1]."
+    source: "quarterly review handled by the operations team each quarter"
+    expected: unverifiable

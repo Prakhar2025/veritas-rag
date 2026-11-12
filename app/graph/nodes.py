@@ -97,6 +97,14 @@ def make_retrieve(runtime: Runtime) -> Callable[[PipelineState], dict]:
                 refusal = "permission" if unrestricted else "no_evidence"
             else:
                 refusal = "no_evidence"
+        elif role.departments is not None:
+            # A restricted role that still sees some documents must not answer
+            # from wrong domain evidence: if the strongest unrestricted evidence
+            # sits outside the set this role can see, deny access. Fail closed.
+            unrestricted = runtime.retriever.retrieve(state["rewritten"], role="analyst")
+            allowed_ids = {block.doc_id for block in blocks}
+            if unrestricted and unrestricted[0].doc_id not in allowed_ids:
+                refusal = "permission"
         serialized = [
             {
                 "number": block.number,

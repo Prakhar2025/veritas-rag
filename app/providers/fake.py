@@ -20,7 +20,7 @@ class FakeChat:
 
     def __init__(self, meter: SpendMeter, responses: dict[str, str] | None = None) -> None:
         self._meter = meter
-        self._responses = responses or {}
+        self._responses = responses if responses is not None else {}
 
     def complete(
         self,

@@ -1,0 +1,173 @@
+# Golden evaluation set (docs/09): 30 questions across six categories.
+# Behavior expectations only; answer content is judged by the model judge at
+# real evaluation time, never hardcoded here.
+
+categories:
+  single_doc: 10
+  multi_doc: 4
+  table: 4
+  follow_up: 4
+  out_of_scope: 4
+  permission: 4
+
+cases:
+  # Single document factual (support_doc names the committed file that answers it)
+  - id: s01
+    category: single_doc
+    question: "What was Apples total net sales in fiscal 2024?"
+    role: analyst
+    support_doc: apple-fy24-q4-financial-statements.pdf
+  - id: s02
+    category: single_doc
+    question: "How much revenue did Apples services segment generate in fiscal 2024?"
+    role: analyst
+    support_doc: apple-fy24-q4-financial-statements.pdf
+  - id: s03
+    category: single_doc
+    question: "What was Apples net income for the twelve months ended September 28, 2024?"
+    role: analyst
+    support_doc: apple-fy24-q4-financial-statements.pdf
+  - id: s04
+    category: single_doc
+    question: "What does the Berkshire Hathaway 2024 letter say about the nature of Greg Abel's role?"
+    role: analyst
+    support_doc: berkshire-hathaway-2024-letter.pdf
+  - id: s05
+    category: single_doc
+    question: "According to NIST SP 800-63B, what are the three authenticator assurance levels?"
+    role: analyst
+    support_doc: nist-sp-800-63b.pdf
+  - id: s06
+    category: single_doc
+    question: "What memory types does NIST SP 800-63B list as things you know, have and are?"
+    role: analyst
+    support_doc: nist-sp-800-63b.pdf
+  - id: s07
+    category: single_doc
+    question: "What two networks were combined by attention according to the Transformer paper abstract?"
+    role: analyst
+    support_doc: attention-is-all-you-need.pdf
+  - id: s08
+    category: single_doc
+    question: "In the RAG paper, what does RAG stand for and what tasks is it aimed at?"
+    role: analyst
+    support_doc: rag-lewis-et-al-2020.pdf
+  - id: s09
+    category: single_doc
+    question: "What does Pro Git say a remote is and how does git remote add work?"
+    role: analyst
+    support_doc: pro-git-book.pdf
+  - id: s10
+    category: single_doc
+    question: "What is a shallow clone according to Pro Git and which flag creates one?"
+    role: analyst
+    support_doc: pro-git-book.pdf
+
+  # Multi document synthesis
+  - id: m01
+    category: multi_doc
+    question: "Compare how the Transformer paper and the RAG paper use retrieval; where do they agree and differ?"
+    role: analyst
+    support_doc: attention-is-all-you-need.pdf
+  - id: m02
+    category: multi_doc
+    question: "Do the NIST digital identity guidelines and Pro Git share any guidance about credentials and secrets handling?"
+    role: analyst
+    support_doc: nist-sp-800-63b.pdf
+  - id: m03
+    category: multi_doc
+    question: "Which of the ingested documents discuss risk, and what kind of risk does each describe?"
+    role: analyst
+    support_doc: berkshire-hathaway-2024-letter.pdf
+  - id: m04
+    category: multi_doc
+    question: "How do the financial statements and the chairman's letter differ in tone and purpose?"
+    role: analyst
+    support_doc: apple-fy24-q4-financial-statements.pdf
+
+  # Table and figure questions (numbers that live in tables)
+  - id: t01
+    category: table
+    question: "What were Apples products net sales versus services net sales for fiscal 2024?"
+    role: analyst
+    support_doc: apple-fy24-q4-financial-statements.pdf
+  - id: t02
+    category: table
+    question: "What was Apples cost of sales in fiscal 2024?"
+    role: analyst
+    support_doc: apple-fy24-q4-financial-statements.pdf
+  - id: t03
+    category: table
+    question: "What were Apples operating expenses for research and development in fiscal 2024?"
+    role: analyst
+    support_doc: apple-fy24-q4-financial-statements.pdf
+  - id: t04
+    category: table
+    question: "What did Apples earnings per diluted share reach for the twelve months in fiscal 2024?"
+    role: analyst
+    support_doc: apple-fy24-q4-financial-statements.pdf
+
+  # Follow up chains (asked in order within one session)
+  - id: f01
+    category: follow_up
+    question: "What was Apples total net sales in fiscal 2024?"
+    role: analyst
+    support_doc: apple-fy24-q4-financial-statements.pdf
+  - id: f02
+    category: follow_up
+    question: "How much of that came from services?"
+    role: analyst
+    support_doc: apple-fy24-q4-financial-statements.pdf
+    follow_up_of: f01
+  - id: f03
+    category: follow_up
+    question: "Summarize that in one sentence for an investor."
+    role: analyst
+    support_doc: apple-fy24-q4-financial-statements.pdf
+    follow_up_of: f02
+  - id: f04
+    category: follow_up
+    question: "Which authenticator types does NIST recommend for phishing resistance, and does the git handbook rely on any of them?"
+    role: analyst
+    support_doc: nist-sp-800-63b.pdf
+    follow_up_of: f03
+
+  # Out of scope (refusal expected)
+  - id: o01
+    category: out_of_scope
+    question: "What is the capital of Australia?"
+    role: analyst
+  - id: o02
+    category: out_of_scope
+    question: "How do I bake sourdough bread at home?"
+    role: analyst
+  - id: o03
+    category: out_of_scope
+    question: "What did Apples stock price close at yesterday?"
+    role: analyst
+  - id: o04
+    category: out_of_scope
+    question: "Which cricket team will win the next world cup?"
+    role: analyst
+
+  # Permission denied under the engineer role (finance and legal docs excluded)
+  - id: p01
+    category: permission
+    question: "What was Apples total net sales in fiscal 2024?"
+    role: engineer
+    support_doc: apple-fy24-q4-financial-statements.pdf
+  - id: p02
+    category: permission
+    question: "What was Apples net income in fiscal 2024?"
+    role: engineer
+    support_doc: apple-fy24-q4-financial-statements.pdf
+  - id: p03
+    category: permission
+    question: "What do the NIST guidelines say about biometric authenticators?"
+    role: engineer
+    support_doc: nist-sp-800-63b.pdf
+  - id: p04
+    category: permission
+    question: "What does the Berkshire 2024 letter say about succession?"
+    role: engineer
+    support_doc: berkshire-hathaway-2024-letter.pdf

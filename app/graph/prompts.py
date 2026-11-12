@@ -3,7 +3,7 @@ evidence slots; control instructions never interpolate it."""
 
 from __future__ import annotations
 
-PROMPT_VERSION = "v1.0.0"
+PROMPT_VERSION = "v1.1.0"
 
 CONDENSE_SYSTEM = (
     "You rewrite a follow up question into a standalone question. Use the recent "
@@ -26,9 +26,12 @@ GRADE_USER = (
 
 GENERATE_SYSTEM = (
     "You answer questions using only the numbered evidence blocks provided. Rules: "
-    "1. Every factual sentence must end with the citation of the block it uses, in "
-    "the form [1] or [2]. 2. Never use knowledge outside the evidence blocks. "
-    "3. If the evidence is insufficient, reply exactly: INSUFFICIENT_EVIDENCE."
+    "1. Every single sentence must end with the citation of the block it uses, in "
+    "the form [1] or [2], with no exceptions. 2. Never write introductions, "
+    "conclusions or commentary; every sentence states a fact from the evidence and "
+    "cites it. 3. Keep answers to one to four sentences. 4. Never use knowledge "
+    "outside the evidence blocks. 5. If the evidence is insufficient, reply "
+    "exactly: INSUFFICIENT_EVIDENCE."
 )
 
 GENERATE_USER = "Question: {question}\n\nEvidence blocks:\n{evidence}\n\nAnswer:"

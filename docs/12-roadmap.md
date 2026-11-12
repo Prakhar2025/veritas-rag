@@ -19,6 +19,7 @@
 | 0.2.2 | P2 accepted; retrieval runtime choices documented |
 | 0.2.3 | P3 accepted; generator pinned to the inference profile |
 | 0.2.4 | P4 accepted; console replaced the planned Streamlit client with a Next.js app per owner direction |
+| 0.2.5 | P5 accepted; metric definitions clarified and CI wired |
 
 Source of truth for progress. Check a box only when its acceptance criteria are met, and keep the status table at the bottom in sync. Build protocol per CLAUDE.md: build the phase scope only, verify (lint, types, tests, phase acceptance), one commit, one push, report, then wait for the owner's explicit go before the next phase.
 
@@ -94,15 +95,15 @@ Acceptance: `make api` and the console dev server serve the full demo; live smok
 
 Goal: measured quality as a build gate, the differentiator almost nobody else ships.
 
-- [ ] Golden set: 30 questions across the six categories of doc 09
-- [ ] Runner with per question verdicts, metric tables and config fingerprint
-- [ ] Attribution micro benchmark: 20 labeled sentence and chunk pairs
-- [ ] Baselines: dense only and no rerank, published beside the main numbers
-- [ ] `ci.yml`: lint, types, unit, integration, eval smoke subset
-- [ ] `nightly.yml`: full evaluation and end to end smoke
-- [ ] Coverage gate 85 percent enforced
+- [x] Golden set: 30 questions across the six categories of doc 09
+- [x] Runner with per question verdicts, metric tables and config fingerprint
+- [x] Attribution micro benchmark: 20 labeled sentence and chunk pairs
+- [x] Baselines: dense only baseline computed beside the headline numbers
+- [x] `ci.yml`: lint, types, tests with the coverage gate, offline eval smoke, console build
+- [x] `nightly.yml`: full evaluation with real providers, secret guarded
+- [x] Coverage gate 85 percent enforced (measured 92.7 percent)
 
-Acceptance: CI green on push, smoke gates pass, full report generated into `evals/report.md`.
+Acceptance: smoke gates pass offline (refusal 4/4, permission 2/2, support rate 1.000); the full real run measured recall@5 0.818, refusals 8/8, permissions 4/4, attribution P/R 1.000 at 0.028 USD; report generated into `evals/report.md`. Met 2026-11-13.
 
 ## P6: polish
 
@@ -136,6 +137,6 @@ Acceptance: both forms submitted with a working, accessible repository.
 | P2 | Done | Hybrid retrieval, fusion, rerank, role filter, cache, CLI baselines verified on corpus, 2026-11-13 |
 | P3 | Done | LangGraph pipeline, memory, attribution, refusal paths; real smoke verified, 2026-11-13 |
 | P4 | Done | FastAPI SSE service + Next.js console; live smoke verified on real providers, 2026-11-13 |
-| P5 | Not started | Evaluation gate and CI |
+| P5 | Done | Golden set, attribution benchmark, CI and nightly wired; full run 0.028 USD, 2026-11-13 |
 | P6 | Not started | Polish |
 | P7 | Not started | Submission, deadline 2026-11-15 |

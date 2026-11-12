@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: Lint
+        run: python -m ruff check app tests scripts evals
+
+      - name: Type check
+        run: python -m mypy app
+
+      - name: Tests with coverage gate
+        run: python -m pytest --cov=app --cov-report=term-missing
+
+      - name: Evaluation smoke (offline)
+        run: python evals/run_evals.py --smoke
+
+      - name: Console build check
+        run: |
+          cd console
+          npm install
+          npm run build

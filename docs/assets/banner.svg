@@ -1,0 +1,36 @@
+<svg width="1200" height="300" viewBox="0 0 1200 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Veritas RAG banner">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#09090b"/>
+      <stop offset="100%" stop-color="#052e22"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="300" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1200" height="6" fill="url(#accent)"/>
+  <rect x="0" y="294" width="1200" height="6" fill="url(#accent)" opacity="0.35"/>
+
+  <!-- citation chips decoration -->
+  <g font-family="Consolas, Menlo, monospace" opacity="0.9">
+    <rect x="850" y="70" width="120" height="44" rx="10" fill="#0f766e" opacity="0.55"/>
+    <text x="910" y="99" text-anchor="middle" font-size="22" fill="#d1fae5">[1]</text>
+    <rect x="990" y="130" width="120" height="44" rx="10" fill="#115e59" opacity="0.6"/>
+    <text x="1050" y="159" text-anchor="middle" font-size="22" fill="#a7f3d0">[2]</text>
+    <rect x="890" y="190" width="120" height="44" rx="10" fill="#134e4a" opacity="0.7"/>
+    <text x="950" y="219" text-anchor="middle" font-size="22" fill="#6ee7b7">[3]</text>
+    <line x1="760" y1="180" x2="885" y2="95" stroke="#34d399" stroke-width="2" opacity="0.5"/>
+    <line x1="760" y1="180" x2="1025" y2="155" stroke="#34d399" stroke-width="2" opacity="0.4"/>
+    <line x1="760" y1="180" x2="925" y2="215" stroke="#34d399" stroke-width="2" opacity="0.5"/>
+    <circle cx="760" cy="180" r="7" fill="#34d399"/>
+  </g>
+
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif">
+    <text x="80" y="120" font-size="64" font-weight="700" fill="#fafafa">Veritas <tspan fill="#34d399">RAG</tspan></text>
+    <text x="82" y="168" font-size="26" fill="#a1a1aa">Every sentence answers to its evidence.</text>
+    <text x="82" y="216" font-size="18" fill="#71717a">Grounded multi document retrieval with sentence level citation verification,</text>
+    <text x="82" y="242" font-size="18" fill="#71717a">conversational memory and refusal honesty. Llama 3.3 70B on AWS Bedrock.</text>
+  </g>
+</svg>

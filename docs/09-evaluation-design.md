@@ -14,6 +14,7 @@
 | Version | Change |
 |---|---|
 | 0.1.0 | Initial draft |
+| 0.1.1 | Metric clarified: the gated number is the draft support rate; delivered precision is 1.0 by construction; CI smoke runs offline over a fixture world with behavior gates |
 
 ## Principle
 
@@ -40,7 +41,7 @@ Out of scope and permission categories exist because honest refusal and access e
 |---|---|---|
 | Retrieval recall@5 | answerable questions where a supporting chunk is in the top 5 evidence blocks | at least 0.85 |
 | Retrieval MRR | mean reciprocal rank of the first supporting chunk | reported |
-| Citation precision | supported sentences over all delivered sentences | at least 0.90 |
+| Draft support rate | generated sentences that survive verification; delivered citation precision is 1.0 by construction because unsupported sentences are stripped | at least 0.75 |
 | Refusal accuracy | correct refusals over out of scope questions | 4 of 4 |
 | Permission accuracy | correct denials over restricted role questions, with zero evidence leaks | 4 of 4, zero leaks |
 | Groundedness | LLM judge score, 1 to 5, on delivered answers | mean at least 4.0 |

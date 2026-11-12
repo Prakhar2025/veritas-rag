@@ -1,6 +1,6 @@
 PY = .venv/Scripts/python.exe
 
-.PHONY: setup ingest ingest-offline api console test lint type check
+.PHONY: setup ingest ingest-offline api console eval eval-real test lint type check
 
 setup:
 	py -3.12 -m venv .venv
@@ -18,6 +18,12 @@ api:
 
 console:
 	cd console && npm run dev
+
+eval:
+	$(PY) evals/run_evals.py --smoke
+
+eval-real:
+	$(PY) evals/run_evals.py --full
 
 test:
 	$(PY) -m pytest

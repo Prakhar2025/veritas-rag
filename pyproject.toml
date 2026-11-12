@@ -43,6 +43,14 @@ module = [
 ]
 ignore_missing_imports = true
 
+[tool.coverage.run]
+source = ["app"]
+omit = ["app/*/__main__.py", "app/ui/*"]
+
+[tool.coverage.report]
+fail_under = 85
+show_missing = true
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
