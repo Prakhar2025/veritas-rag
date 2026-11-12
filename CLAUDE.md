@@ -4,7 +4,7 @@
 
 1. No em dashes in any file, any message, any UI copy. Use commas, colons or parentheses.
 2. Commit messages follow Conventional Commits (`feat:`, `fix(scope):`, `docs:`, `chore:`, `ci:`, `style:`, `build:`, `refactor:`) and describe what changed. Messages never reference plan indexes or phase numbers.
-3. Commits are small and focused. Documentation, code and style changes land as separate commits.
+3. Commits are meaningful work units. A complete piece of work (the documentation suite, the ingestion pipeline, the service layer) lands as one commit, and a push goes out when that unit is done. Never fragment related files into many small commits, and never bundle unrelated changes together.
 4. Never commit `.env`, `data/indexes/`, `data/traces/` or any credential.
 5. Tests never call real model providers. The fake provider is the only provider in unit and integration tests; real provider runs are explicitly marked and manual.
 
