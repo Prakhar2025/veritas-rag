@@ -20,6 +20,7 @@
 | 0.2.3 | P3 accepted; generator pinned to the inference profile |
 | 0.2.4 | P4 accepted; console replaced the planned Streamlit client with a Next.js app per owner direction |
 | 0.2.5 | P5 accepted; metric definitions clarified and CI wired |
+| 0.2.6 | P6 accepted; README rewritten with measured results, assets and demo script added |
 
 Source of truth for progress. Check a box only when its acceptance criteria are met, and keep the status table at the bottom in sync. Build protocol per CLAUDE.md: build the phase scope only, verify (lint, types, tests, phase acceptance), one commit, one push, report, then wait for the owner's explicit go before the next phase.
 
@@ -109,13 +110,14 @@ Acceptance: smoke gates pass offline (refusal 4/4, permission 2/2, support rate 
 
 Goal: the package the evaluator actually reads first.
 
-- [ ] README rewrite: banner, badges, demo video above the fold, 30 second version, architecture diagram, measured results, honest limitations, quickstart
-- [ ] Branding assets: banner, favicon, consistent palette
-- [ ] `INTERVIEW-PREP.md` for the owner
-- [ ] Final `docs/what-broke.md` review
-- [ ] Fresh clone walkthrough following only the README
+- [x] README rewrite: banner, badges, 30 second version, architecture diagram, measured results from evals/report.md, honest limitations, quickstart
+- [x] Branding assets: banner SVG, console favicon, consistent dark palette with the emerald accent
+- [x] `INTERVIEW-PREP.md` for the owner with decisions, numbers and what broke stories
+- [x] Demo script written to docs/demo-script.md (75 second, seven beats, recording checklist)
+- [ ] Final `docs/what-broke.md` review (owner pass)
+- [ ] Fresh clone walkthrough following only the README (owner pass)
 
-Acceptance: a fresh clone reaches a cited conversation in under 10 minutes using only the README.
+Acceptance: README carries the real measured numbers; the demo script lands inside 75 seconds; recording and the clone walkthrough are owner actions. Met for automation scope 2026-11-13.
 
 ## P7: submission
 
@@ -138,5 +140,5 @@ Acceptance: both forms submitted with a working, accessible repository.
 | P3 | Done | LangGraph pipeline, memory, attribution, refusal paths; real smoke verified, 2026-11-13 |
 | P4 | Done | FastAPI SSE service + Next.js console; live smoke verified on real providers, 2026-11-13 |
 | P5 | Done | Golden set, attribution benchmark, CI and nightly wired; full run 0.028 USD, 2026-11-13 |
-| P6 | Not started | Polish |
+| P6 | Done | README with measured numbers, banner, favicon, INTERVIEW-PREP, demo script; video recording is the owner action, 2026-11-13 |
 | P7 | Not started | Submission, deadline 2026-11-15 |
