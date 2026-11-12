@@ -14,6 +14,7 @@
 | Version | Change |
 |---|---|
 | 0.1.0 | Initial draft |
+| 0.1.1 | Contextualization specified as batched calls with a chunk hash cache, matching the implementation |
 
 ## Corpus
 
@@ -34,7 +35,7 @@ Documents are stored under `data/corpus/` and committed so the repository is run
 
 1. **Extract.** Parse each PDF with a layout aware extractor that preserves page numbers and heading structure, producing page mapped blocks.
 2. **Chunk.** Build section aware chunks from heading boundaries. Small chunks target roughly 300 tokens with 15 percent overlap; parent chunks cover the enclosing section up to about 1200 tokens. Small chunks are what gets embedded; parents are what the generator reads (small to big retrieval, doc 05).
-3. **Contextualize.** One cheap model call per chunk writes a one or two sentence blurb describing what this chunk contains and where it sits in the document. The blurb is prepended at embedding time, which anchors ambiguous chunks ("the margin improved by 340 basis points") to their document context. This follows the contextual retrieval approach published by Anthropic, which reports materially lower retrieval failure rates from this step.
+3. **Contextualize.** One cheap model call per batch of ten chunks writes a one or two sentence blurb for each chunk describing what it contains and where it sits in the document. Blurbs are cached by chunk text hash, so re ingestion of unchanged chunks costs nothing. The blurb is prepended at embedding time, which anchors ambiguous chunks ("the margin improved by 340 basis points") to their document context. This follows the contextual retrieval approach published by Anthropic, which reports materially lower retrieval failure rates from this step.
 4. **Embed and index.** Small chunk plus blurb is embedded and written to the vector index; the same text is tokenized into the BM25 index; metadata goes to a JSONL sidecar.
 5. **Idempotency check.** The document SHA-256 is computed before any work. If the hash already exists in the index manifest, ingestion skips the document and reports it as unchanged. Re ingesting after edits creates a new version and retires the old chunks.
 

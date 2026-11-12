@@ -15,6 +15,7 @@
 |---|---|
 | 0.1.0 | Initial draft, capability order |
 | 0.2.0 | Restructured into phase gated P0 to P7 with acceptance criteria and status table |
+| 0.2.1 | P1 accepted with measured results; checklist updated to the delivered corpus and batching |
 
 Source of truth for progress. Check a box only when its acceptance criteria are met, and keep the status table at the bottom in sync. Build protocol per CLAUDE.md: build the phase scope only, verify (lint, types, tests, phase acceptance), one commit, one push, report, then wait for the owner's explicit go before the next phase.
 
@@ -33,17 +34,17 @@ Acceptance: the documentation suite alone describes a buildable system; every as
 
 Goal: public corpus committed with sources, and a tested pipeline that turns PDFs into contextual chunks and indexes them.
 
-- [ ] Corpus: 6 to 8 public PDFs (annual report with tables, financial statements, regulatory circular, technical whitepaper, operations manual, business report), each under 20 MB, committed under `data/corpus/` with `SOURCES.md` recording source, license and retrieval date
-- [ ] `scripts/fetch_corpus.py`: reproducible download with source manifest
-- [ ] Extraction with page maps (pymupdf4llm)
-- [ ] Section aware chunking: small chunks around 300 tokens with overlap, parents up to 1200 tokens
-- [ ] Contextual blurb per chunk via Nova Micro, cached by chunk text hash
-- [ ] SHA-256 idempotency: re ingest of identical content is a reported no op; changed content bumps index version
-- [ ] Indexes: FAISS (bge-small), BM25 artifact, metadata JSONL, manifest with index version
-- [ ] `make setup` and `make ingest` targets pinned to the project virtualenv
-- [ ] Unit tests for chunker, hash idempotency, manifest; integration test on a constructed 3 page fixture PDF with the fake provider
+- [x] Corpus: 6 public PDFs (financial statements, business narrative, regulatory standards text, two technical whitepapers, operations and procedure manual), each under 20 MB, committed under `data/corpus/` with `SOURCES.md` recording source, license and retrieval date
+- [x] `scripts/fetch_corpus.py`: reproducible download with source manifest and per slot candidate URLs
+- [x] Extraction with page maps (pymupdf4llm)
+- [x] Section aware chunking: small chunks around 300 tokens with line aligned overlap, parents up to 1200 tokens
+- [x] Contextual blurbs via Nova Micro in batches of ten, cached by chunk text hash
+- [x] SHA-256 idempotency: re ingest of identical content is a reported no op; changed content retires the old document id and bumps the index version
+- [x] Indexes: FAISS (bge-small via fastembed), BM25 artifact, metadata JSONL, manifest with index version
+- [x] `make setup` and `make ingest` targets pinned to the project virtualenv
+- [x] Unit tests for chunker, spend meter, manifest; integration tests on fixture PDFs with the fake provider, including a regression test for the changed document case
 
-Acceptance: `make ingest` runs green on the corpus, a second run reports every document unchanged, `py -3.12 -m pytest` green.
+Acceptance: `make ingest` runs green on the corpus (6 documents, 1,817 chunks, 0.018 USD), a second run reports every document unchanged with zero new provider calls, `py -3.12 -m pytest` green (19 tests), lint and mypy clean. Met 2026-11-12.
 
 ## P2: retrieval engine
 
@@ -128,7 +129,7 @@ Acceptance: both forms submitted with a working, accessible repository.
 | Phase | Status | Notes |
 |---|---|---|
 | P0 | Done | Docs suite, brief, control tables, constitution, 2026-11-12 |
-| P1 | Not started | Corpus and ingestion |
+| P1 | Done | Corpus 6 docs 28.4 MB, ingestion 1,817 chunks, 0.018 USD, idempotent re run verified, 2026-11-12 |
 | P2 | Not started | Retrieval engine |
 | P3 | Not started | Grounded pipeline |
 | P4 | Not started | Service and console |

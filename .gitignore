@@ -24,6 +24,7 @@ htmlcov/
 data/indexes/
 data/cache/
 data/traces/
+data/spend.json
 *.db
 *.sqlite3
 

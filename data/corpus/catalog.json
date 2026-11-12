@@ -1,0 +1,51 @@
+[
+  {
+    "filename": "apple-fy24-q4-financial-statements.pdf",
+    "title": "Apple Inc. FY2024 Q4 Consolidated Financial Statements",
+    "category": "financial statements with tables",
+    "departments": [
+      "finance"
+    ]
+  },
+  {
+    "filename": "berkshire-hathaway-2024-letter.pdf",
+    "title": "Berkshire Hathaway 2024 Chairman's Letter",
+    "category": "business narrative report",
+    "departments": [
+      "business"
+    ]
+  },
+  {
+    "filename": "nist-sp-800-63b.pdf",
+    "title": "NIST Special Publication 800-63B, Digital Identity Guidelines",
+    "category": "regulatory and standards text with numbered clauses",
+    "departments": [
+      "legal"
+    ]
+  },
+  {
+    "filename": "attention-is-all-you-need.pdf",
+    "title": "Attention Is All You Need (arXiv 1706.03762)",
+    "category": "technical whitepaper",
+    "departments": [
+      "engineering"
+    ]
+  },
+  {
+    "filename": "rag-lewis-et-al-2020.pdf",
+    "title": "Retrieval Augmented Generation for Knowledge Intensive NLP Tasks (arXiv 2005.11401)",
+    "category": "technical whitepaper",
+    "departments": [
+      "engineering"
+    ]
+  },
+  {
+    "filename": "pro-git-book.pdf",
+    "title": "Pro Git, second edition",
+    "category": "operations and procedure manual",
+    "departments": [
+      "engineering",
+      "general"
+    ]
+  }
+]
