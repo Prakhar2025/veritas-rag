@@ -84,6 +84,7 @@ def run_ingest(
             "chunk_target_tokens": settings.chunk_target_tokens,
             "chunk_overlap_tokens": settings.chunk_overlap_tokens,
             "parent_max_tokens": settings.parent_max_tokens,
+            "extract_version": 2,
         }
     )
     fingerprint_changed = manifest.fingerprint != fingerprint and manifest.fingerprint != ""

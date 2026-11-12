@@ -16,6 +16,7 @@
 | 0.1.0 | Initial draft, capability order |
 | 0.2.0 | Restructured into phase gated P0 to P7 with acceptance criteria and status table |
 | 0.2.1 | P1 accepted with measured results; checklist updated to the delivered corpus and batching |
+| 0.2.2 | P2 accepted; retrieval runtime choices documented |
 
 Source of truth for progress. Check a box only when its acceptance criteria are met, and keep the status table at the bottom in sync. Build protocol per CLAUDE.md: build the phase scope only, verify (lint, types, tests, phase acceptance), one commit, one push, report, then wait for the owner's explicit go before the next phase.
 
@@ -50,15 +51,15 @@ Acceptance: `make ingest` runs green on the corpus (6 documents, 1,817 chunks, 0
 
 Goal: a callable, tested retrieval layer with access control, hybrid search and caching, provable before any UI exists.
 
-- [ ] Role resolution and metadata filter applied before scoring (pre filter, never post filter)
-- [ ] Dense (FAISS) and sparse (BM25) search with reciprocal rank fusion
-- [ ] Local cross encoder rerank (bge-reranker-base) to top 5 evidence blocks
-- [ ] Small to big parent expansion, citations resolved to small chunk pages
-- [ ] Semantic cache on question embeddings with index version invalidation
-- [ ] Standalone CLI to query retrieval without generation, for debugging and baselines
-- [ ] Unit tests for RRF ordering, role filter, cache threshold; integration test with fake embeddings
+- [x] Role resolution and metadata filter applied before scoring (pre filter via FAISS ID selector and restricted BM25 ranking, never post filter)
+- [x] Dense (FAISS) and sparse (BM25) search with reciprocal rank fusion
+- [x] Local cross encoder rerank (fastembed ONNX ms-marco MiniLM) to top 5 evidence blocks
+- [x] Small to big parent expansion, citations resolved to small chunk pages
+- [x] Semantic cache on question embeddings with index version invalidation
+- [x] Standalone CLI to query retrieval without generation, with hybrid, dense and bm25 modes and a no rerank switch for baselines
+- [x] Unit tests for RRF ordering, role semantics and cache threshold; integration tests for role scoping, modes and top n on the fixture index
 
-Acceptance: retrieval callable standalone on the corpus, tests green, dense only and no rerank baselines measurable from the CLI.
+Acceptance: retrieval callable standalone on the corpus (the Apple net sales query ranks the consolidated statements first), dense only and no rerank baselines measurable from the CLI, 36 tests green, lint and mypy clean. Met 2026-11-13.
 
 ## P3: grounded pipeline
 
@@ -130,7 +131,7 @@ Acceptance: both forms submitted with a working, accessible repository.
 |---|---|---|
 | P0 | Done | Docs suite, brief, control tables, constitution, 2026-11-12 |
 | P1 | Done | Corpus 6 docs 28.4 MB, ingestion 1,817 chunks, 0.018 USD, idempotent re run verified, 2026-11-12 |
-| P2 | Not started | Retrieval engine |
+| P2 | Done | Hybrid retrieval, fusion, rerank, role filter, cache, CLI baselines verified on corpus, 2026-11-13 |
 | P3 | Not started | Grounded pipeline |
 | P4 | Not started | Service and console |
 | P5 | Not started | Evaluation gate and CI |

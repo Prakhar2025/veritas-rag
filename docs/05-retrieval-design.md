@@ -14,6 +14,7 @@
 | Version | Change |
 |---|---|
 | 0.1.0 | Initial draft |
+| 0.1.1 | Reranker runtime specified as the fastembed ONNX cross encoder, matching the implementation |
 
 ## Design goal
 
@@ -52,7 +53,7 @@ Reciprocal rank fusion merges the two lists. For each chunk, `score = sum over l
 
 ## Stage three: rerank
 
-The fused top 20 goes through a local cross encoder (`bge-reranker-base`) that scores each question and chunk pair jointly, which catches relevance that independent scoring misses. The top 5 survive. The reranker runs on CPU; at this corpus size the latency budget holds, and the design keeps a config switch for a hosted reranker later.
+The fused top 20 goes through a local cross encoder (ms-marco MiniLM L 6 v2 via fastembed, ONNX) that scores each question and chunk pair jointly, which catches relevance that independent scoring misses. The top 5 survive. The reranker runs on CPU; at this corpus size the latency budget holds, and the design keeps a config switch for a hosted reranker later.
 
 ## Small to big expansion
 

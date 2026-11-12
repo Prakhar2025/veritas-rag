@@ -8,6 +8,7 @@ embedding and BM25; parents (up to 1200 tokens) feed generation (small to big).
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
@@ -52,10 +53,9 @@ def _split_into_blocks(markdown: str, heading_stack: list[str]) -> list[tuple[st
                 blocks.append((current_path, current_lines))
                 current_lines = []
             level = len(stripped) - len(stripped.lstrip("#"))
-            title = stripped.lstrip("#").strip() or "Untitled"
+            title = re.sub(r"^#+\s*", "", stripped) or "Untitled"
             heading_stack[:] = heading_stack[: max(level - 1, 0)] + [title]
             current_path = " / ".join(heading_stack)
-            current_lines.append(stripped)
         elif stripped:
             current_lines.append(line)
     if current_lines:

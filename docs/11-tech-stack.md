@@ -16,6 +16,7 @@
 | 0.1.0 | Initial draft |
 | 0.1.1 | Model matrix records the documented end of life for Llama 3.3 70B and the API status field gap |
 | 0.1.2 | Embeddings runtime moved to fastembed (ONNX) to stay torch free on Windows |
+| 0.1.3 | Reranker runtime moved to fastembed (ONNX); the cross encoder import path documented |
 
 ## Runtime libraries
 
@@ -28,7 +29,7 @@
 | Sparse index | rank-bm25 | persisted tokenized artifact |
 | PDF extraction | pymupdf4llm | layout and page map aware markdown |
 | Embeddings | fastembed (ONNX), BAAI bge-small-en-v1.5 | local default, torch free |
-| Reranker | sentence-transformers, BAAI bge-reranker-base | local cross encoder, CPU |
+| Reranker | fastembed (ONNX), Xenova ms-marco MiniLM L 6 v2 | local cross encoder, CPU, torch free |
 | API | FastAPI, uvicorn, sse-starlette | SSE streaming |
 | Config | pydantic-settings | typed environment configuration |
 | UI | Streamlit | chat with sources panel |

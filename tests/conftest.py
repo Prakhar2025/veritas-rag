@@ -54,3 +54,28 @@ def fixture_corpus(tmp_path: Path) -> Path:
     ]
     (corpus_dir / "catalog.json").write_text(json.dumps(catalog), encoding="utf-8")
     return corpus_dir
+
+
+def ingest_fixture(tmp_path: Path, fixture_corpus: Path) -> Path:
+    """Ingest the fixture corpus with deterministic providers; return the data dir."""
+    from app.core.config import Settings
+    from app.core.spend import SpendMeter
+    from app.ingest.pipeline import run_ingest
+    from app.providers.embeddings import HashEmbedder
+    from app.providers.fake import FakeChat
+
+    settings = Settings(
+        data_dir=str(tmp_path / "data"),
+        chat_provider="fake",
+        embeddings_provider="hash",
+        _env_file=None,  # type: ignore[call-arg]
+    )
+    meter = SpendMeter(Path(settings.data_dir) / "spend.json", settings.spend_cap_usd)
+    run_ingest(
+        corpus_dir=fixture_corpus,
+        data_dir=Path(settings.data_dir),
+        chat=FakeChat(meter),
+        embedder=HashEmbedder(),
+        settings=settings,
+    )
+    return Path(settings.data_dir)

@@ -32,7 +32,10 @@ def extract_pages(pdf_path: Path) -> list[PageText]:
     pages: list[PageText] = []
     for index, item in enumerate(raw_pages):
         meta = item.get("metadata") or {}
-        number = int(meta.get("page", index)) + 1
+        raw_page = int(meta.get("page", index + 1))
+        # pymupdf4llm reports 1-based page numbers in recent versions and 0-based in
+        # older ones; normalize by comparing the reported value with the position.
+        number = raw_page + 1 if raw_page == index else raw_page
         text = (item.get("text") or "").strip()
         if text:
             pages.append(PageText(page=number, markdown=text))
