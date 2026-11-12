@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+import threading
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -22,7 +23,10 @@ class SessionStore:
 
     def __init__(self, db_path: Path) -> None:
         db_path.parent.mkdir(parents=True, exist_ok=True)
-        self._conn = sqlite3.connect(str(db_path))
+        # The service runs requests on worker threads; one shared connection is
+        # guarded by a lock for writes.
+        self._conn = sqlite3.connect(str(db_path), check_same_thread=False)
+        self._lock = threading.Lock()
         self._conn.execute(
             "CREATE TABLE IF NOT EXISTS messages ("
             " session_id TEXT NOT NULL, seq INTEGER NOT NULL,"
@@ -46,13 +50,14 @@ class SessionStore:
             "SELECT COALESCE(MAX(seq), 0) FROM messages WHERE session_id = ?",
             (session_id,),
         ).fetchone()
-        self._conn.execute(
-            "INSERT INTO messages (session_id, seq, role, content, citations)"
-            " VALUES (?, ?, ?, ?, ?)",
-            (session_id, int(row[0]) + 1, message.role, message.content,
-             json.dumps(message.citations)),
-        )
-        self._conn.commit()
+        with self._lock:
+            self._conn.execute(
+                "INSERT INTO messages (session_id, seq, role, content, citations)"
+                " VALUES (?, ?, ?, ?, ?)",
+                (session_id, int(row[0]) + 1, message.role, message.content,
+                 json.dumps(message.citations)),
+            )
+            self._conn.commit()
 
     def list_sessions(self) -> list[dict[str, object]]:
         """All sessions with message counts, newest first."""
@@ -77,14 +82,15 @@ class SessionStore:
 
     def delete_session(self, session_id: str) -> None:
         """Remove a session's history and any graph checkpoint rows."""
-        self._conn.execute(
-            "DELETE FROM messages WHERE session_id = ?", (session_id,)
-        )
-        for table in ("checkpoints", "checkpoint_writes", "checkpoint_blobs"):
-            try:
-                self._conn.execute(
-                    f"DELETE FROM {table} WHERE thread_id = ?", (session_id,)
-                )
-            except sqlite3.OperationalError:
-                pass
-        self._conn.commit()
+        with self._lock:
+            self._conn.execute(
+                "DELETE FROM messages WHERE session_id = ?", (session_id,)
+            )
+            for table in ("checkpoints", "checkpoint_writes", "checkpoint_blobs"):
+                try:
+                    self._conn.execute(
+                        f"DELETE FROM {table} WHERE thread_id = ?", (session_id,)
+                    )
+                except sqlite3.OperationalError:
+                    pass
+            self._conn.commit()

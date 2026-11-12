@@ -14,6 +14,7 @@
 | Version | Change |
 |---|---|
 | 0.1.0 | Initial draft |
+| 0.1.1 | Status events carry stage timings; index_empty code added; SSE frames hand formatted without a dependency |
 
 Base URL (local): `http://localhost:8000`. All bodies are JSON. Optional bearer token auth when configured; local default runs without it.
 
@@ -68,7 +69,7 @@ The response is an SSE stream. Event types:
 
 | Event | Payload | Notes |
 |---|---|---|
-| `status` | `{"stage": "retrieving"}` | pipeline stage notifications |
+| `status` | `{"stage": "attribute", "ms": 549.8}` | emitted as each pipeline stage completes |
 | `token` | `{"text": "..."}` | answer tokens, in order |
 | `citations` | `{"citations": [...]}` | verified citation list, sent after tokens |
 | `meta` | `{"cache_hit": true, "index_version": 7, "latency_ms": {...}, "usage": {...}}` | final event on success |
@@ -104,6 +105,7 @@ GET /v1/sessions/{id}/history
 | 422 | `unsupported_document` | not a readable PDF |
 | 429 | `rate_limited` | over the request rate limit |
 | 503 | `provider_unavailable` | model provider unreachable |
+| 503 | `index_empty` | no documents ingested yet |
 
 ## Traces
 

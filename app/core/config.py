@@ -27,6 +27,11 @@ class Settings(BaseSettings):
 
     chat_provider: str = "bedrock"  # bedrock or fake
 
+    reranker_provider: str = "fastembed"  # fastembed or identity
+    reranker_model: str = "Xenova/ms-marco-MiniLM-L-6-v2"
+    cors_origins: str = "http://localhost:3000"
+    rate_limit_per_minute: int = 30
+
     spend_cap_usd: float = 5.0
 
     chunk_target_tokens: int = 300

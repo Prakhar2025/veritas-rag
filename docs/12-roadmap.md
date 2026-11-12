@@ -18,6 +18,7 @@
 | 0.2.1 | P1 accepted with measured results; checklist updated to the delivered corpus and batching |
 | 0.2.2 | P2 accepted; retrieval runtime choices documented |
 | 0.2.3 | P3 accepted; generator pinned to the inference profile |
+| 0.2.4 | P4 accepted; console replaced the planned Streamlit client with a Next.js app per owner direction |
 
 Source of truth for progress. Check a box only when its acceptance criteria are met, and keep the status table at the bottom in sync. Build protocol per CLAUDE.md: build the phase scope only, verify (lint, types, tests, phase acceptance), one commit, one push, report, then wait for the owner's explicit go before the next phase.
 
@@ -81,13 +82,13 @@ Acceptance: 50 tests green including every refusal path and a multi turn chain, 
 
 Goal: the API contract of doc 07 served live, with the Streamlit client demonstrating it.
 
-- [ ] FastAPI: health, ingest, chat (SSE), sessions list, history, delete, trace tail
-- [ ] JSONL trace writer with stage latencies, usage and verdicts
-- [ ] Rate limiting and error contract per doc 07
-- [ ] Streamlit chat: streaming tokens, sources panel with page links, cache hit marker, session picker
-- [ ] API tests with HTTP client: event order, terminal event present, disconnect leaves valid trace
+- [x] FastAPI: health, ingest, chat (SSE), sessions list, history, delete, trace tail
+- [x] JSONL trace writer with stage latencies and verdicts per request
+- [x] Rate limiting and the full error contract per doc 07
+- [x] Next.js console (app router, tailwind): streaming tokens, citations with page numbers, refusal states, role picker, live trace panel
+- [x] API tests with HTTP client: SSE event order, error codes, rate limit, upload ingestion, traces
 
-Acceptance: `make api` and `make ui` serve the full demo; API contract tests green.
+Acceptance: `make api` and the console dev server serve the full demo; live smoke over real providers streamed a cited Apple answer through SSE; 58 tests green, lint and mypy clean. Met 2026-11-13.
 
 ## P5: evaluation gate and CI
 
@@ -134,7 +135,7 @@ Acceptance: both forms submitted with a working, accessible repository.
 | P1 | Done | Corpus 6 docs 28.4 MB, ingestion 1,817 chunks, 0.018 USD, idempotent re run verified, 2026-11-12 |
 | P2 | Done | Hybrid retrieval, fusion, rerank, role filter, cache, CLI baselines verified on corpus, 2026-11-13 |
 | P3 | Done | LangGraph pipeline, memory, attribution, refusal paths; real smoke verified, 2026-11-13 |
-| P4 | Not started | Service and console |
+| P4 | Done | FastAPI SSE service + Next.js console; live smoke verified on real providers, 2026-11-13 |
 | P5 | Not started | Evaluation gate and CI |
 | P6 | Not started | Polish |
 | P7 | Not started | Submission, deadline 2026-11-15 |

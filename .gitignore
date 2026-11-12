@@ -33,3 +33,6 @@ data/spend.json
 Thumbs.db
 .idea/
 .vscode/
+
+# Console build artifacts
+data/uploads/

@@ -1,6 +1,6 @@
 PY = .venv/Scripts/python.exe
 
-.PHONY: setup ingest ingest-offline test lint type check
+.PHONY: setup ingest ingest-offline api console test lint type check
 
 setup:
 	py -3.12 -m venv .venv
@@ -12,6 +12,12 @@ ingest:
 
 ingest-offline:
 	$(PY) -m app.ingest --skip-contextualize
+
+api:
+	$(PY) -m uvicorn app.api.app:create_app --factory --host 127.0.0.1 --port 8000
+
+console:
+	cd console && npm run dev
 
 test:
 	$(PY) -m pytest
