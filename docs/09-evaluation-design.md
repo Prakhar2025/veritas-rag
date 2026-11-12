@@ -1,5 +1,20 @@
 # 09. Evaluation Design
 
+## Document Control
+
+| Field | Value |
+|---|---|
+| Version | 0.1.0 |
+| Status | Active specification |
+| Owner | Prakhar Shukla |
+| Last updated | 2026-11-12 |
+
+## Changelog
+
+| Version | Change |
+|---|---|
+| 0.1.0 | Initial draft |
+
 ## Principle
 
 A RAG system is only as good as its measured behavior on questions that matter, including the ones it should refuse. The evaluation suite is a gate, not a decoration: it runs in CI and blocks the build when quality regresses.

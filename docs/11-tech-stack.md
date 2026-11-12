@@ -1,5 +1,21 @@
 # 11. Technology Stack
 
+## Document Control
+
+| Field | Value |
+|---|---|
+| Version | 0.1.1 |
+| Status | Active specification |
+| Owner | Prakhar Shukla |
+| Last updated | 2026-11-12 |
+
+## Changelog
+
+| Version | Change |
+|---|---|
+| 0.1.0 | Initial draft |
+| 0.1.1 | Model matrix records the documented end of life for Llama 3.3 70B and the API status field gap |
+
 ## Runtime libraries
 
 | Layer | Choice | Notes |
@@ -25,7 +41,7 @@ Verified against AWS Bedrock, region us-east-1, by actual one token invocations,
 
 | Model | Status | Role in this project |
 |---|---|---|
-| Meta Llama 3.3 70B | working, via inference profile | default generator |
+| Meta Llama 3.3 70B | working, via inference profile, legacy with EOL 2027-03-30 per the AWS model card | default generator, retained deliberately for the assignment window and swapped by config after |
 | Amazon Nova Micro | working, direct | rewrite, grade, judge |
 | Amazon Nova Lite / Pro | working, direct | generation options |
 | Amazon Nova 2 Lite | working, via global profile | generation option |
@@ -38,6 +54,8 @@ Verified against AWS Bedrock, region us-east-1, by actual one token invocations,
 | Cohere Rerank 3.5 | blocked, payment instrument required | replaced by local cross encoder |
 
 The matrix is published because reproducibility requires knowing which model served which answer, and because honest verification (invoke, not list) is part of the engineering standard here.
+
+Lifecycle caveat recorded from real experience during model verification: the API's `modelLifecycle.status` field reported ACTIVE for Llama 3.3 70B even though AWS documentation had already recorded its legacy transition (2026-09-30) and end of life (2027-03-30). Documented model cards take precedence over the API field for lifecycle planning. The guards below exist precisely because of that gap.
 
 ## Deprecation guards
 

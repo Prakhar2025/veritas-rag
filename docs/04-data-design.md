@@ -1,5 +1,20 @@
 # 04. Data Design
 
+## Document Control
+
+| Field | Value |
+|---|---|
+| Version | 0.1.0 |
+| Status | Active specification |
+| Owner | Prakhar Shukla |
+| Last updated | 2026-11-12 |
+
+## Changelog
+
+| Version | Change |
+|---|---|
+| 0.1.0 | Initial draft |
+
 ## Corpus
 
 The demo corpus is a set of public PDF reports chosen for variety of structure and vocabulary, because retrieval quality claims mean nothing on homogeneous documents.

@@ -1,5 +1,20 @@
 # 01. Problem Statement
 
+## Document Control
+
+| Field | Value |
+|---|---|
+| Version | 0.1.0 |
+| Status | Active specification |
+| Owner | Prakhar Shukla |
+| Last updated | 2026-11-12 |
+
+## Changelog
+
+| Version | Change |
+|---|---|
+| 0.1.0 | Initial draft |
+
 ## Background
 
 Organizations accumulate knowledge in documents: annual reports, financial statements, technical manuals, business policies and operational procedures. The information exists, but answering a specific question means a person opens multiple PDFs, scans dozens of pages, and assembles the answer by hand. At scale this is slow, inconsistent and error prone.

@@ -1,5 +1,20 @@
 # 08. Security and Privacy
 
+## Document Control
+
+| Field | Value |
+|---|---|
+| Version | 0.1.0 |
+| Status | Active specification |
+| Owner | Prakhar Shukla |
+| Last updated | 2026-11-12 |
+
+## Changelog
+
+| Version | Change |
+|---|---|
+| 0.1.0 | Initial draft |
+
 ## Access control
 
 The system implements document level access control with a role filter, following the pattern used in enterprise retrieval systems: access metadata travels with the chunk, and enforcement happens inside retrieval.

@@ -1,42 +1,137 @@
-# 12. Roadmap
+# 12 Roadmap
 
-## Delivery plan
+## Document Control
 
-Capabilities land in vertical slices, each slice committed and green in CI before the next begins. The order below is dependency order; each entry describes user visible capability, not internal phases.
+| Field | Value |
+|---|---|
+| Version | 0.2.0 |
+| Status | Active specification |
+| Owner | Prakhar Shukla |
+| Last updated | 2026-11-12 |
 
-| Order | Capability | What exists when it lands |
+## Changelog
+
+| Version | Change |
+|---|---|
+| 0.1.0 | Initial draft, capability order |
+| 0.2.0 | Restructured into phase gated P0 to P7 with acceptance criteria and status table |
+
+Source of truth for progress. Check a box only when its acceptance criteria are met, and keep the status table at the bottom in sync. Build protocol per CLAUDE.md: build the phase scope only, verify (lint, types, tests, phase acceptance), one commit, one push, report, then wait for the owner's explicit go before the next phase.
+
+## P0: repository, docs, scaffold
+
+- [x] git init, .gitignore, MIT LICENSE, README stub with document table
+- [x] docs suite 01 to 12: problem statement, product requirements, architecture, data design, retrieval design, grounding, API spec, security, evaluation design, testing strategy, tech stack, roadmap
+- [x] project brief with assignment verbatim, option rationale and hard constraints (this file set)
+- [x] document control tables and changelog sections on every document
+- [x] CLAUDE.md engineering constitution
+- [x] docs/what-broke.md failure log created
+
+Acceptance: the documentation suite alone describes a buildable system; every assignment requirement maps to a design; hard constraints recorded. Met 2026-11-12.
+
+## P1: corpus and ingestion
+
+Goal: public corpus committed with sources, and a tested pipeline that turns PDFs into contextual chunks and indexes them.
+
+- [ ] Corpus: 6 to 8 public PDFs (annual report with tables, financial statements, regulatory circular, technical whitepaper, operations manual, business report), each under 20 MB, committed under `data/corpus/` with `SOURCES.md` recording source, license and retrieval date
+- [ ] `scripts/fetch_corpus.py`: reproducible download with source manifest
+- [ ] Extraction with page maps (pymupdf4llm)
+- [ ] Section aware chunking: small chunks around 300 tokens with overlap, parents up to 1200 tokens
+- [ ] Contextual blurb per chunk via Nova Micro, cached by chunk text hash
+- [ ] SHA-256 idempotency: re ingest of identical content is a reported no op; changed content bumps index version
+- [ ] Indexes: FAISS (bge-small), BM25 artifact, metadata JSONL, manifest with index version
+- [ ] `make setup` and `make ingest` targets pinned to the project virtualenv
+- [ ] Unit tests for chunker, hash idempotency, manifest; integration test on a constructed 3 page fixture PDF with the fake provider
+
+Acceptance: `make ingest` runs green on the corpus, a second run reports every document unchanged, `py -3.12 -m pytest` green.
+
+## P2: retrieval engine
+
+Goal: a callable, tested retrieval layer with access control, hybrid search and caching, provable before any UI exists.
+
+- [ ] Role resolution and metadata filter applied before scoring (pre filter, never post filter)
+- [ ] Dense (FAISS) and sparse (BM25) search with reciprocal rank fusion
+- [ ] Local cross encoder rerank (bge-reranker-base) to top 5 evidence blocks
+- [ ] Small to big parent expansion, citations resolved to small chunk pages
+- [ ] Semantic cache on question embeddings with index version invalidation
+- [ ] Standalone CLI to query retrieval without generation, for debugging and baselines
+- [ ] Unit tests for RRF ordering, role filter, cache threshold; integration test with fake embeddings
+
+Acceptance: retrieval callable standalone on the corpus, tests green, dense only and no rerank baselines measurable from the CLI.
+
+## P3: grounded pipeline
+
+Goal: the full LangGraph pipeline with memory, grading, generation, sentence level attribution and refusal.
+
+- [ ] LangGraph state graph: condense, retrieve, grade, generate, attribute, finalize
+- [ ] SQLite checkpointer: sessions persist across restarts, history window plus standalone rewrite
+- [ ] Grading gate: below threshold evidence short circuits to refusal
+- [ ] Generation with numbered evidence blocks and inline citations (Llama 3.3 70B default)
+- [ ] Sentence level attribution with the numeric consistency guard; unsupported sentences removed; empty result refuses
+- [ ] Refusal templates for: no relevant evidence, insufficient support, permission denied
+- [ ] Prompt module with versions, prompts never embed document content outside evidence slots
+- [ ] Integration tests on the fake provider: follow up resolution, unsupported sentence stripping, each refusal path
+
+Acceptance: integration suite green including refusal paths and a multi turn follow up chain; no real provider calls in tests.
+
+## P4: service and console
+
+Goal: the API contract of doc 07 served live, with the Streamlit client demonstrating it.
+
+- [ ] FastAPI: health, ingest, chat (SSE), sessions list, history, delete, trace tail
+- [ ] JSONL trace writer with stage latencies, usage and verdicts
+- [ ] Rate limiting and error contract per doc 07
+- [ ] Streamlit chat: streaming tokens, sources panel with page links, cache hit marker, session picker
+- [ ] API tests with HTTP client: event order, terminal event present, disconnect leaves valid trace
+
+Acceptance: `make api` and `make ui` serve the full demo; API contract tests green.
+
+## P5: evaluation gate and CI
+
+Goal: measured quality as a build gate, the differentiator almost nobody else ships.
+
+- [ ] Golden set: 30 questions across the six categories of doc 09
+- [ ] Runner with per question verdicts, metric tables and config fingerprint
+- [ ] Attribution micro benchmark: 20 labeled sentence and chunk pairs
+- [ ] Baselines: dense only and no rerank, published beside the main numbers
+- [ ] `ci.yml`: lint, types, unit, integration, eval smoke subset
+- [ ] `nightly.yml`: full evaluation and end to end smoke
+- [ ] Coverage gate 85 percent enforced
+
+Acceptance: CI green on push, smoke gates pass, full report generated into `evals/report.md`.
+
+## P6: polish
+
+Goal: the package the evaluator actually reads first.
+
+- [ ] README rewrite: banner, badges, demo video above the fold, 30 second version, architecture diagram, measured results, honest limitations, quickstart
+- [ ] Branding assets: banner, favicon, consistent palette
+- [ ] `INTERVIEW-PREP.md` for the owner
+- [ ] Final `docs/what-broke.md` review
+- [ ] Fresh clone walkthrough following only the README
+
+Acceptance: a fresh clone reaches a cited conversation in under 10 minutes using only the README.
+
+## P7: submission
+
+Goal: convert the work into the application.
+
+- [ ] Secrets sweep: no tokens or account identifiers anywhere, git history included
+- [ ] Owner makes the repository public
+- [ ] Form answers drafted for both forms (ratings ML 8, DL 7, GenAI 9, experience 0-2, graduation 2026, relocate yes)
+- [ ] Both forms submitted with the repository link
+
+Acceptance: both forms submitted with a working, accessible repository.
+
+## Status table
+
+| Phase | Status | Notes |
 |---|---|---|
-| 1 | Documentation suite | This document set, repository scaffold, conventions |
-| 2 | Ingestion | PDFs to contextual chunks to indexed store, idempotent, with an ingest command |
-| 3 | Retrieval engine | Role filtered hybrid search with fusion, rerank and parent expansion, callable standalone |
-| 4 | Grounded pipeline | Full graph with memory, grading, generation, sentence attribution and refusal |
-| 5 | Service and UI | FastAPI with streaming sessions and the Streamlit chat client |
-| 6 | Evaluation gate | Golden set harness, report generation, CI wiring, coverage gates |
-| 7 | Polish | README with diagram and demo video, branding assets, deployment notes |
-
-## Production scale out path
-
-The items below are out of scope for this delivery (doc 02) and are documented as the path a production deployment would take:
-
-| Area | Approach |
-|---|---|
-| Multi tenant isolation | Per tenant index namespaces or separate collections; tenant resolved at request time from identity, never from request body |
-| OCR and scans | Fallback extraction with OCR for image only pages, flagged chunks with lower trust metadata |
-| Connector sync | Scheduled incremental ingestion from document stores with permission sync on change, reusing the sha256 idempotency model |
-| Canary and A/B | Two index versions side by side with traffic splitting on the chat route, evaluation gates as promotion criteria |
-| Serving the reranker | GPU hosted cross encoder or hosted reranking service behind the same interface when corpus size outgrows CPU latency |
-| Orchestration | Containerized deployment behind a queue based ingestion worker; the current single service design keeps this a packaging change, not a rewrite |
-| Observability | Trace records already structured for ingestion into an external observability backend |
-
-## Risks and open questions
-
-| Risk | Mitigation |
-|---|---|
-| Contextualization cost at scale | Blurbs are cached by chunk text hash; re ingestion recontextualizes only new chunks. At larger corpus scale, blurbs are computed in batch jobs off the request path |
-| CPU rerank latency growth | rerank_top_n and candidate limits are configuration; the interface accepts a hosted reranker without code change |
-| Corpus growth | Ingestion is per document idempotent; index version invalidation keeps cache correctness independent of corpus size |
-| Judge drift | Attribution micro benchmark (doc 09) catches verifier regression independently of answer quality |
-
-## Immediate next steps
-
-Land capability 2: the ingestion pipeline with its command line entry point, tests and fixtures, followed by capability 3 as a callable retrieval engine before any UI exists, so every layer is provable in isolation.
+| P0 | Done | Docs suite, brief, control tables, constitution, 2026-11-12 |
+| P1 | Not started | Corpus and ingestion |
+| P2 | Not started | Retrieval engine |
+| P3 | Not started | Grounded pipeline |
+| P4 | Not started | Service and console |
+| P5 | Not started | Evaluation gate and CI |
+| P6 | Not started | Polish |
+| P7 | Not started | Submission, deadline 2026-11-15 |

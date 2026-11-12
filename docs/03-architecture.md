@@ -1,5 +1,21 @@
 # 03. Architecture
 
+## Document Control
+
+| Field | Value |
+|---|---|
+| Version | 0.1.1 |
+| Status | Active specification |
+| Owner | Prakhar Shukla |
+| Last updated | 2026-11-12 |
+
+## Changelog
+
+| Version | Change |
+|---|---|
+| 0.1.0 | Initial draft |
+| 0.1.1 | Generator row notes the documented model end of life |
+
 ## System overview
 
 ```mermaid
@@ -63,7 +79,7 @@ Cheap models grade and judge; a strong open source model writes. This is deliber
 | Role | Model | Provider | Notes |
 |---|---|---|---|
 | Rewrite, grade, judge | Amazon Nova Micro | Bedrock | fastest and cheapest verifier, access verified |
-| Generation (default) | Meta Llama 3.3 70B | Bedrock, inference profile | open source model, matches deployment goal |
+| Generation (default) | Meta Llama 3.3 70B | Bedrock, inference profile | open source model, matches deployment goal; AWS documents EOL 2027-03-30, retained deliberately for the assignment window and swapped by configuration after |
 | Generation (quality option) | Amazon Nova Pro | Bedrock | alternative writer via config |
 | Embeddings (default) | BAAI bge-small-en-v1.5 | local | zero cost, reproducible, no credentials needed |
 | Embeddings (option) | Amazon Titan Embed Text v2 | Bedrock | 1024 dims, access verified |

@@ -8,6 +8,7 @@ Upload multiple PDF reports, ask questions in natural language, and receive answ
 
 | # | Document | Contents |
 |---|----------|----------|
+| 00 | [Project brief](docs/00-project-brief.md) | Assignment verbatim, option rationale, hard constraints |
 | 01 | [Problem statement](docs/01-problem-statement.md) | Why grounded retrieval matters and what this system solves |
 | 02 | [Product requirements](docs/02-product-requirements.md) | Personas, functional and non functional requirements, non goals |
 | 03 | [Architecture](docs/03-architecture.md) | Component map, pipeline design, model routing |

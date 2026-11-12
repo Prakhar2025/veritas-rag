@@ -1,5 +1,20 @@
 # 10. Testing Strategy
 
+## Document Control
+
+| Field | Value |
+|---|---|
+| Version | 0.1.0 |
+| Status | Active specification |
+| Owner | Prakhar Shukla |
+| Last updated | 2026-11-12 |
+
+## Changelog
+
+| Version | Change |
+|---|---|
+| 0.1.0 | Initial draft |
+
 ## Layers
 
 | Layer | Scope | Model provider | Runs |

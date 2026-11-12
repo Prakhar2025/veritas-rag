@@ -1,5 +1,20 @@
 # 07. API Specification
 
+## Document Control
+
+| Field | Value |
+|---|---|
+| Version | 0.1.0 |
+| Status | Active specification |
+| Owner | Prakhar Shukla |
+| Last updated | 2026-11-12 |
+
+## Changelog
+
+| Version | Change |
+|---|---|
+| 0.1.0 | Initial draft |
+
 Base URL (local): `http://localhost:8000`. All bodies are JSON. Optional bearer token auth when configured; local default runs without it.
 
 ## Endpoints

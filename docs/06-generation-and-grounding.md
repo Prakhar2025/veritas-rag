@@ -1,5 +1,20 @@
 # 06. Generation and Grounding
 
+## Document Control
+
+| Field | Value |
+|---|---|
+| Version | 0.1.0 |
+| Status | Active specification |
+| Owner | Prakhar Shukla |
+| Last updated | 2026-11-12 |
+
+## Changelog
+
+| Version | Change |
+|---|---|
+| 0.1.0 | Initial draft |
+
 ## Grounding contract
 
 An answer is a list of sentences. Each sentence is either (a) supported by the chunk it cites, or (b) removed before the user sees it. If no sentence survives, the user receives the refusal message. This contract is enforced by code, not by prompt instructions alone.

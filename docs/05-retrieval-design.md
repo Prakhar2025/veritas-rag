@@ -1,5 +1,20 @@
 # 05. Retrieval Design
 
+## Document Control
+
+| Field | Value |
+|---|---|
+| Version | 0.1.0 |
+| Status | Active specification |
+| Owner | Prakhar Shukla |
+| Last updated | 2026-11-12 |
+
+## Changelog
+
+| Version | Change |
+|---|---|
+| 0.1.0 | Initial draft |
+
 ## Design goal
 
 Find the few chunks that actually answer the question, in the right order, without leaking evidence the role is not allowed to see, and without paying full latency for questions already answered.
