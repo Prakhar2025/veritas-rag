@@ -19,6 +19,10 @@
 </p>
 
 <p align="center">
+  <video src="docs/assets/demo.mp4" poster="docs/assets/demo-poster.png" controls width="820"></video>
+</p>
+
+<p align="center">
   <a href="docs/demo-script.md"><strong>Demo walkthrough</strong></a>
   &nbsp;&middot;&nbsp;
   <a href="evals/report.md">Evaluation report</a>

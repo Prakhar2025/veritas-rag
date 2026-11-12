@@ -141,4 +141,4 @@ Acceptance: both forms submitted with a working, accessible repository.
 | P4 | Done | FastAPI SSE service + Next.js console; live smoke verified on real providers, 2026-11-13 |
 | P5 | Done | Golden set, attribution benchmark, CI and nightly wired; full run 0.028 USD, 2026-11-13 |
 | P6 | Done | README with measured numbers, banner, favicon, INTERVIEW-PREP, demo script; video recording is the owner action, 2026-11-13 |
-| P7 | Not started | Submission, deadline 2026-11-15 |
+| P7 | In progress | Demo video rendered and embedded in README; owner actions remaining: review, flip public, submit forms, deadline 2026-11-15 |
